@@ -1,5 +1,10 @@
-ccflags-y += -DCONFIG_VIBRATOR_NOISE_CAMERA
+# add -Wall to try to catch everything we can.
 
-ldo_vibrator_mmi-y += moto_ldo_vibrator.o
+ccflags-y += -Wall
+ccflags-y += -I$(srctree)/$(src)/../../../include
 
-obj-y += ldo_vibrator_mmi.o
+ifneq ($(filter m y,$(CONFIG_VIBRATOR_NOISE_CAMERA)),)
+	        ccflags-y += -DCONFIG_VIBRATOR_NOISE_CAMERA
+endif
+
+obj-$(CONFIG_LDO_VIBRATOR_MMI) += moto_ldo_vibrator.o
