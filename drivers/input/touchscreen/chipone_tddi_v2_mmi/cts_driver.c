@@ -564,6 +564,7 @@ static int chipone_sensor_init(struct chipone_ts_data *data)
         __set_bit(KEY_WAKEUP, sensor_input_dev->keybit);
 #endif
         __set_bit(EV_SYN, sensor_input_dev->evbit);
+        __set_bit(INPUT_PROP_WAKE, sensor_input_dev->propbit);
 
         sensor_input_dev->name = "double-tap";
         data->sensor_pdata->input_sensor_dev = sensor_input_dev;
@@ -573,6 +574,7 @@ static int chipone_sensor_init(struct chipone_ts_data *data)
                 cts_err("Unable to register device, err=%d", err);
                 goto free_sensor_input_dev;
         }
+        device_init_wakeup(&sensor_input_dev->dev, true);
 
         sensor_pdata->ps_cdev = sensors_touch_cdev;
         sensor_pdata->ps_cdev.sensors_enable = chipone_sensor_set_enable;
@@ -586,6 +588,7 @@ static int chipone_sensor_init(struct chipone_ts_data *data)
         return 0;
 
 unregister_sensor_input_device:
+        device_init_wakeup(&data->sensor_pdata->input_sensor_dev->dev, false);
         input_unregister_device(data->sensor_pdata->input_sensor_dev);
 free_sensor_input_dev:
         input_free_device(data->sensor_pdata->input_sensor_dev);
@@ -599,6 +602,7 @@ exit:
 int chipone_sensor_remove(struct chipone_ts_data *data)
 {
         sensors_classdev_unregister(&data->sensor_pdata->ps_cdev);
+        device_init_wakeup(&data->sensor_pdata->input_sensor_dev->dev, false);
         input_unregister_device(data->sensor_pdata->input_sensor_dev);
         devm_kfree(&data->sensor_pdata->input_sensor_dev->dev,
                 data->sensor_pdata);
