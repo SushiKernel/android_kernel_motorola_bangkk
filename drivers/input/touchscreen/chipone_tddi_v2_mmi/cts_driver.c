@@ -28,6 +28,10 @@
 #include <linux/mmi_device.h>
 #endif
 
+#ifndef INPUT_PROP_WAKE
+#define INPUT_PROP_WAKE 0x09
+#endif
+
 static void cts_resume_work_func(struct work_struct *work);
 #ifdef CFG_CTS_DRM_NOTIFIER
 #if defined(CONFIG_DRM_PANEL_EVENT_NOTIFICATIONS)

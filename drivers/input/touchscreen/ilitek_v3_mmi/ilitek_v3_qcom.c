@@ -25,6 +25,10 @@
 #include <linux/mmi_device.h>
 #endif
 
+#ifndef INPUT_PROP_WAKE
+#define INPUT_PROP_WAKE 0x09
+#endif
+
 #define DTS_INT_GPIO	"touch,irq-gpio"
 #define DTS_RESET_GPIO	"touch,reset-gpio"
 #define DTS_OF_NAME	"tchip,ilitek"
