@@ -3168,6 +3168,16 @@ static ssize_t gesture_store(struct device *dev,
                         cts_info("[%s %d]:  double tap enable", __func__, __LINE__);
                         cts_data->d_tap_flag = 1;
                         break;
+                case 0:
+                        cts_info("[%s %d]:  double tap disable", __func__, __LINE__);
+                        cts_data->s_tap_flag = 0;
+                        cts_data->d_tap_flag = 0;
+                        break;
+                case 1:
+                        cts_info("[%s %d]:  double tap enable", __func__, __LINE__);
+                        cts_data->s_tap_flag = 0;
+                        cts_data->d_tap_flag = 1;
+                        break;
                 default:
                         cts_info("[%s %d]: unsupport gesture mode type", __func__, __LINE__);
         }
