@@ -4056,6 +4056,16 @@ static ssize_t gesture_store(struct device *dev,
 			ilits->ges_sym.double_tap = DOUBLE_TAP;
 			ilits->sys_gesture_type |= 0x04;
 			break;
+		case 0:
+			ILI_INFO("double tap disable\n");
+			ilits->ges_sym.double_tap = OFF;
+			ilits->sys_gesture_type &= 0xFB;
+			break;
+		case 1:
+			ILI_INFO("double tap enable\n");
+			ilits->ges_sym.double_tap = DOUBLE_TAP;
+			ilits->sys_gesture_type |= 0x04;
+			break;
 		default:
 			ILI_INFO("unsupport gesture mode type\n");
 			return err;
