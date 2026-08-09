@@ -64,6 +64,19 @@
 };
 
 &soc {
+	fingerprint {
+		compatible = "qcom,fingerprint-gpio";
+		status = "ok";
+		reg = <0>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <17 0x0>;
+		fp-gpio-int = <&tlmm 17 0x0>;
+		fp-gpio-reset = <&tlmm 18 0x0>;
+		pinctrl-names = "default", "suspend";
+		pinctrl-0 = <&chipone_int_active>;
+		pinctrl-1 = <&chipone_int_suspend>;
+	};
+
 	fpc: fpc_fpc1020 {
 		compatible = "fpc,fpc1020";
 		status = "ok";
