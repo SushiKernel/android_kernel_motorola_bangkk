@@ -793,6 +793,7 @@ static int ili_sensor_init(struct ilitek_ts_data *data)
 #ifdef ILI_DOUBLE_TAP_CTRL
 		__set_bit(KEY_WAKEUP, sensor_input_dev->keybit);
 #endif
+		__set_bit(INPUT_PROP_WAKE, sensor_input_dev->propbit);
 	} else {
 		__set_bit(EV_ABS, sensor_input_dev->evbit);
 		input_set_abs_params(sensor_input_dev, ABS_DISTANCE,
@@ -808,6 +809,8 @@ static int ili_sensor_init(struct ilitek_ts_data *data)
 		ILI_ERR("Unable to register device, err=%d", err);
 		goto free_sensor_input_dev;
 	}
+	if (data->report_gesture_key)
+		device_init_wakeup(&sensor_input_dev->dev, true);
 
 	sensor_pdata->ps_cdev = sensors_touch_cdev;
 	sensor_pdata->ps_cdev.sensors_enable = ili_sensor_set_enable;
@@ -821,6 +824,7 @@ static int ili_sensor_init(struct ilitek_ts_data *data)
 	return 0;
 
 unregister_sensor_input_device:
+	device_init_wakeup(&data->sensor_pdata->input_sensor_dev->dev, false);
 	input_unregister_device(data->sensor_pdata->input_sensor_dev);
 free_sensor_input_dev:
 	input_free_device(data->sensor_pdata->input_sensor_dev);
@@ -834,6 +838,7 @@ exit:
 int ili_sensor_remove(struct ilitek_ts_data *data)
 {
 	sensors_classdev_unregister(&data->sensor_pdata->ps_cdev);
+	device_init_wakeup(&data->sensor_pdata->input_sensor_dev->dev, false);
 	input_unregister_device(data->sensor_pdata->input_sensor_dev);
 	devm_kfree(&data->sensor_pdata->input_sensor_dev->dev,
 		data->sensor_pdata);
