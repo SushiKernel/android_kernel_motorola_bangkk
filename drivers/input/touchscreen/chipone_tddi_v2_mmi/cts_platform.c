@@ -7,7 +7,9 @@
 #include "cts_sysfs.h"
 #include "cts_tcs.h"
 extern struct chipone_ts_data *g_cts_data;
+#if defined(CHIPONE_SENSOR_EN) && !defined(CONFIG_BOARD_USES_DOUBLE_TAP_CTRL)
 static struct wakeup_source *gesture_wakelock;
+#endif
 
 #ifndef INPUT_PROP_WAKE
 #define INPUT_PROP_WAKE 0x09
