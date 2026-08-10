@@ -2111,11 +2111,16 @@ void ili_report_gesture_mode(u8 *buf, int len)
 			} else {
 				break;
 			}
-#endif
+			input_report_key(ilits->input, key_code, 1);
+			input_sync(ilits->input);
+			input_report_key(ilits->input, key_code, 0);
+			input_sync(ilits->input);
+#else
 			input_report_key(ilits->sensor_pdata->input_sensor_dev, key_code, 1);
 			input_sync(ilits->sensor_pdata->input_sensor_dev);
 			input_report_key(ilits->sensor_pdata->input_sensor_dev, key_code, 0);
 			input_sync(ilits->sensor_pdata->input_sensor_dev);
+#endif
 			++report_cnt;
 			ILI_INFO("input report keycode %d, report_cnt: %d", key_code, report_cnt);
 		} else {

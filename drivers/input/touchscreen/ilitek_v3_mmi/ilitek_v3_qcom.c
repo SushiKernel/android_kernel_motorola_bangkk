@@ -140,6 +140,9 @@ void ili_input_register(void)
 	}
 
 	/* Gesture keys register */
+#ifdef ILI_DOUBLE_TAP_CTRL
+	input_set_capability(ilits->input, EV_KEY, KEY_WAKEUP);
+#endif
 	input_set_capability(ilits->input, EV_KEY, KEY_POWER);
 	input_set_capability(ilits->input, EV_KEY, KEY_GESTURE_UP);
 	input_set_capability(ilits->input, EV_KEY, KEY_GESTURE_DOWN);
@@ -155,6 +158,9 @@ void ili_input_register(void)
 	input_set_capability(ilits->input, EV_KEY, KEY_GESTURE_C);
 	input_set_capability(ilits->input, EV_KEY, KEY_GESTURE_F);
 
+#ifdef ILI_DOUBLE_TAP_CTRL
+	__set_bit(KEY_WAKEUP, ilits->input->keybit);
+#endif
 	__set_bit(KEY_GESTURE_POWER, ilits->input->keybit);
 	__set_bit(KEY_GESTURE_UP, ilits->input->keybit);
 	__set_bit(KEY_GESTURE_DOWN, ilits->input->keybit);
@@ -169,6 +175,10 @@ void ili_input_register(void)
 	__set_bit(KEY_GESTURE_Z, ilits->input->keybit);
 	__set_bit(KEY_GESTURE_C, ilits->input->keybit);
 	__set_bit(KEY_GESTURE_F, ilits->input->keybit);
+
+#ifdef ILI_DOUBLE_TAP_CTRL
+	__set_bit(INPUT_PROP_WAKE, ilits->input->propbit);
+#endif
 
 	/* register the input device to input sub-system */
 	if (input_register_device(ilits->input) < 0) {
