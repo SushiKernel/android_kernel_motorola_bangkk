@@ -1476,7 +1476,7 @@ CONFIG_NFC=y
 #
 # Near Field Communication (NFC) devices
 #
-CONFIG_SEC_NFC=m
+CONFIG_SEC_NFC=y
 # CONFIG_SEC_NFC_PRODUCT_N3 is not set
 CONFIG_SEC_NFC_PRODUCT_N5=y
 # CONFIG_SEC_NFC_IF_UART is not set
