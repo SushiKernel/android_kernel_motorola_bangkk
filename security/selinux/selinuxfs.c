@@ -189,7 +189,7 @@ out:
 #define sel_write_enforce NULL
 #endif
 
-const struct file_operations sel_handle_status_ops = {
+static const struct file_operations sel_enforce_ops = {
 	.read		= sel_read_enforce,
 	.write		= sel_write_enforce,
 	.llseek		= generic_file_llseek,
